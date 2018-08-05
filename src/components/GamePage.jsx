@@ -1,21 +1,28 @@
 import React from 'react';
-import DrawingArea from './DrawingArea';
+import { createGame } from './../services/firebase';
+import { AuthConsumer } from './AuthContext';
 
-const Game = () => (
-  <div>
-    <h2>Game</h2>
+class Game extends React.Component {
 
-    <button>
-      Create a Game!
-    </button>    
+  startNewGame(userId) {
+    createGame(userId)
+  }
 
-    <hr/>
+  render() {
+    return (<AuthConsumer>
+      {({user}) =>
+      <div>
+        <h2>Game</h2>
+        <button onClick={() => this.startNewGame(user.uid)}>
+          Create a Game!
+        </button>
+        <hr />
+        Join a Game! <input></input>
+      </div>
+      }
+    </AuthConsumer>)
+  }
 
-    Join a Game! <input></input>
-
-    <DrawingArea />
-
-  </div>
-);
+}
 
 export default Game;

@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from './../services/firebase';
 
 var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -8,25 +8,25 @@ const Auth = {
   },
   authenticate(cb) {
     firebase.auth().signInWithPopup(provider)
-    .then(() => {
+    .then((user) => {
       console.log('Signed in user!');
-      cb(true);
+      cb(true, this.getUser());
     }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log("Error signing in user:", errorCode, errorMessage);
-      cb(false);
+      cb(false, this.getUser());
     });
   },
   signout(cb) {
     firebase.auth().signOut().then(() => {
       console.log('Signed out user!');
-      cb(true);
+      cb(true, this.getUser());
     }, (error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log("Error signing out user:", errorCode, errorMessage);
-      cb(false);
+      cb(false, this.getUser());
     });
   }
 };

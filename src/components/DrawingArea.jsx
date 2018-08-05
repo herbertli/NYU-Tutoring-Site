@@ -9,8 +9,24 @@ class DrawingArea extends Component {
     }
   }
 
+  // TODO: use LZ-String compression to save and load
+  saveDrawing = () => {
+    console.log(this.saveableCanvas.getSaveData())
+  }
+
+  loadDrawing = (drawingStr) => {
+    console.log(drawingStr);
+  }
+
   render() {
-    return <CanvasDraw />
+    return (
+    <React.Fragment>
+      <CanvasDraw
+        ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
+      />
+      <button onClick={this.saveDrawing}>Save</button>
+    </React.Fragment>
+    )
   }
 
 }

@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 var config = {
   apiKey: "AIzaSyCHGdDK99IxKIhdAwazCXAIOS3WHnG0gJU",
@@ -9,6 +11,7 @@ var config = {
   messagingSenderId: "662511872543"
 };
 firebase.initializeApp(config);
+export default firebase;
 
 const firestoreDB = firebase.firestore();
 const settings = {
@@ -22,7 +25,39 @@ export const gamesCollection = firestoreDB.collection("games");
 // creates a game in firestore
 export const createGame = (userId) => {
   var gameRef = gamesCollection.doc();
+  const initialGameState = {
+    users: {},
+    gameStage: 0,
+    currentDrawing: null,
+    drawings: {},
+    prompts: {}
+  }
+  gameRef.set(initialGameState)
+  .then(function() {
+    console.log(`Game ${gameRef.id} successfully initialized`);
+  })
+  .catch(function(error) {
+    console.log(`Error initializing game ${gameRef.id}:`, error);
+  });
   addUserToGame(userId, gameRef.id);
+}
+
+export const createOrGetUser = (user) => {
+  var userRef = usersCollection.doc(user.uid);
+  if (userRef.exists) {
+    return userRef;
+  } else {
+    usersCollection.doc(user.uid).set({
+      email: user.email,
+      games: {}
+    })
+    .then(() => {
+      console.log(`Created user: ${user.uid} email: ${user.email}`);
+    })
+    .catch((error) => {
+      console.log(`Error creating user: ${user.uid} email: ${user.email}`);
+    });
+  }
 }
 
 // add game to user obj and add user to game object

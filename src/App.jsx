@@ -5,7 +5,6 @@ import {
   Link
 } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
-import AuthButton from './components/AuthButton';
 import { AuthProvider } from './components/AuthContext';
 import Home from './components/HomePage';
 import Login from './components/LoginPage';
@@ -32,9 +31,6 @@ const App = () => {
             </li>
             <li>
               <Link to="/game">Let's Play</Link>
-            </li>
-            <li>
-              <AuthButton />
             </li>
           </ul>
           <hr />

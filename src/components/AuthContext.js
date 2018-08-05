@@ -1,5 +1,6 @@
 import React from 'react';
-import auth from './../services/authentication'
+import auth from './../services/authentication';
+import { createOrGetUser } from './../services/firebase';
 
 const AuthContext = React.createContext();
 
@@ -7,19 +8,27 @@ class AuthProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      isAuth: false 
+      isAuth: false,
+      user: null
     }
   }
   
   login = () => {
-    auth.authenticate((success) => {
-      this.setState({ isAuth: success })
+    auth.authenticate((success, user) => {
+      this.setState({ 
+        isAuth: success,
+        user
+      })
+      createOrGetUser(user)
     })
   }
 
   logout = () => {
-    auth.signout((success) => {
-      this.setState({ isAuth: !success })
+    auth.signout((success, user) => {
+      this.setState({ 
+        isAuth: !success,
+        user
+      })
     })
   }
 
@@ -28,6 +37,7 @@ class AuthProvider extends React.Component {
       <AuthContext.Provider
         value={{ 
           isAuth: this.state.isAuth,
+          user: this.state.user,
           login: this.login,
           logout: this.logout
         }}
