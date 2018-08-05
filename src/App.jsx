@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
 import AuthButton from './components/AuthButton';
+import { AuthProvider } from './components/AuthContext';
 import Home from './components/HomePage';
 import Login from './components/LoginPage';
 import About from './components/AboutPage';
@@ -15,7 +16,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 const App = () => {
   return (
-    <React.Fragment>
+    <AuthProvider>
       <CssBaseline />
       <Router>
         <div>
@@ -44,7 +45,7 @@ const App = () => {
           <PrivateRoute path="/game" component={Game} />
         </div>
       </Router>
-    </React.Fragment>)
+    </AuthProvider>)
 }
 
 export default App;

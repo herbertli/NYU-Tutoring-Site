@@ -72,5 +72,3 @@ export const removeUserFromGame = (userId, gameId) => {
   });
 
 }
-
-

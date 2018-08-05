@@ -1,29 +1,17 @@
 import React from "react";
-import { withRouter } from 'react-router-dom';
-import auth from './../services/authentication';
+import { AuthConsumer } from './AuthContext'
 
-const AuthButton = withRouter(
-  ({ history }) =>
-    auth.getUser() ? (
+const AuthButton = () => (
+  <AuthConsumer>
+    {({ isAuth, login, logout }) => isAuth ? (
       <p>
         Welcome!{" "}
-        <button
-          onClick={() => {
-            auth.signout(() => history.push("/"));
-          }}
-        >
-          Sign out
-          </button>
+        <button onClick={logout}>Sign out</button>
       </p>
-    ) : <p>You are not logged in.
-                <button
-          onClick={() => {
-            auth.authenticate(() => history.push("/"));
-          }}
-        >
-          Sign in
-          </button>
-    </p>
-);
+    ) : <p>
+        You are not logged in. <button onClick={login}>Sign in</button>
+      </p>
+    }
+</AuthConsumer>);
 
 export default AuthButton;
