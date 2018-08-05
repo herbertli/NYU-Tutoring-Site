@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 import React from 'react'
 import { render } from 'react-dom'
 
@@ -79,3 +81,20 @@ const App = () => (
 
 render(<App />, document.getElementById('root'))
 registerServiceWorker()
+=======
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+=======
+import React from 'react';
+import ReactDOM from 'react-dom';
+>>>>>>> initial commit
+import App from './App';
+import registerServiceWorker from './registerServiceWorker';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+registerServiceWorker();
+<<<<<<< HEAD
+>>>>>>> Initial commit
+=======
+>>>>>>> initial commit
