@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
-import fakeAuth from '../services/authentication';
+import auth from '../services/authentication';
 
 class Login extends React.Component {
   state = {
@@ -8,7 +8,7 @@ class Login extends React.Component {
   };
 
   login = () => {
-    fakeAuth.authenticate(() => {
+    auth.authenticate(() => {
       this.setState({ redirectToReferrer: true });
     });
   };
@@ -23,7 +23,7 @@ class Login extends React.Component {
 
     return (
       <div>
-        <p>You must log in to view the page at {from.pathname}</p>
+        <p>Please Sign-In to Continue!</p>
         <button onClick={this.login}>Log in</button>
       </div>
     );

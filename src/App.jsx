@@ -5,40 +5,46 @@ import {
   Link
 } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
-
+import AuthButton from './components/AuthButton';
 import Home from './components/HomePage';
 import Login from './components/LoginPage';
 import About from './components/AboutPage';
 import Profile from './components/ProfilePage';
 import Game from './components/GamePage';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-const App = () => (
-  <Router>
-    <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li>
-        <li>
-          <Link to="/game">Let's Play</Link>
-        </li>
-      </ul>
-
-      <hr />
-
-      <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={Login} />
-      <Route path="/about" component={About} />
-      <PrivateRoute path="/profile" component={Profile} />
-      <PrivateRoute path="/game" component={Game} />
-    </div>
-  </Router>
-);
+const App = () => {
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Router>
+        <div>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/game">Let's Play</Link>
+            </li>
+            <li>
+              <AuthButton />
+            </li>
+          </ul>
+          <hr />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+          <Route path="/about" component={About} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/game" component={Game} />
+        </div>
+      </Router>
+    </React.Fragment>)
+}
 
 export default App;
