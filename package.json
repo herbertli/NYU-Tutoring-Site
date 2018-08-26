@@ -2,10 +2,12 @@
   "name": "summer-proj",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://herbertli.github.io/summer-project",
   "dependencies": {
     "@material-ui/core": "^1.4.3",
     "@material-ui/icons": "^2.0.1",
     "firebase": "^5.0.4",
+    "gh-pages": "^1.2.0",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
     "react-canvas-draw": "^0.1.9",
@@ -19,6 +21,8 @@
     "redux-firestore": "^0.5.7"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
