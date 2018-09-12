@@ -1,9 +1,11 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { fakeAuth } from "../services/authentication";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { usersCollection, updateUser } from './../services/firebase';
 
 class Login extends React.Component {
   state = {
@@ -11,8 +13,25 @@ class Login extends React.Component {
   };
 
   login = () => {
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true });
+    const provider = new firebase.auth.GoogleAuthProvider();
+    // firebase.auth().signInWithRedirect(provider);
+    // firebase.auth().getRedirectResult().then(function(result) {
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      console.log(result.user);
+      const user = result.user;
+      usersCollection.doc(user.uid).get().then((doc) => {
+        if (doc.exists) {
+          console.log("Authorized!");
+          updateUser(user.uid, user.displayName, user.email);
+          this.setState({ redirectToReferrer: true });
+        } else {
+          console.log("Unauthorized!");
+        }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+    }).catch((error) => {
+      console.log(error.message);
     });
   };
 
@@ -35,7 +54,7 @@ class Login extends React.Component {
           </Typography>
         </Grid>
         <Grid item>
-          <Button size="large" variant="outlined" color="primary" onClick={this.login}>Log in</Button>
+          <Button size="large" variant="outlined" color="primary" onClick={() => { this.login() }}>Log in</Button>
         </Grid>
       </Grid>
       </div>

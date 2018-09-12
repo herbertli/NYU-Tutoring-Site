@@ -4,13 +4,23 @@ import 'firebase/auth';
 import firebaseConfig from './../firebaseConfig';
 
 firebase.initializeApp(firebaseConfig);
-export default firebase;
 
 const firestoreDB = firebase.firestore();
 const settings = {
   timestampsInSnapshots: true
 };
 firestoreDB.settings(settings);
+
+export const getCurrentUser = () => {
+  return firebase.auth().currentUser;
+}
+
+export const isAuthorized = () => {
+  const user = getCurrentUser();
+  if (user !== null)
+    return getUser(user.uid) !== null;
+  return false;
+}
 
 export const usersCollection = firestoreDB.collection("users");
 
@@ -25,7 +35,7 @@ export const listenToUsers = () => {
 }
 
 export const getUser = (uid) => {
-  usersCollection.where("uid" === uid).get().then((doc) => {
+  usersCollection.doc(uid).get().then((doc) => {
     if (doc.exists) {
       return doc;
     } else {
@@ -35,7 +45,7 @@ export const getUser = (uid) => {
   });
 }
 
-export const createUser = (firstName, lastName, email, isAdmin = false) => {
+export const createUser = (firstName, lastName, email, uid, isAdmin = false) => {
   usersCollection.doc(uid).set({
       firstName,
       lastName,
@@ -47,6 +57,18 @@ export const createUser = (firstName, lastName, email, isAdmin = false) => {
     })
     .catch(function (error) {
       console.error("Error adding user: ", error);
+    });
+}
+
+export const updateUser = (uid, displayName, email) => {
+  usersCollection.doc(uid).update({
+      displayName,
+      email
+    }).then(() => {
+      console.log("User updated!");
+    })
+    .catch(function (error) {
+      console.error("Error updating user: ", error);
     });
 }
 

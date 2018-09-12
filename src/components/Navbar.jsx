@@ -10,71 +10,90 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
-import { fakeAuth } from '../services/authentication';
+import { isAuthorized } from '../services/firebase';
 import Tooltip from '@material-ui/core/Tooltip';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
-const Navbar = () => {
+class Navbar extends React.Component {
 
-  const AuthBar = withRouter(({ history }) =>
-    fakeAuth.isAuthenticated ? (
-      <React.Fragment>
-        <Link to="/">
-          <Tooltip title="Home">
-            <IconButton aria-label="Home" style={{ color: 'white' }}>
-              <Home />
+  state = {
+    user: null
+  }
+
+  signout(cb) {
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      console.log("Signed out!");
+      cb();
+    }).catch(function(error) {
+      // An error happened.
+      console.log("Error signing out:", error.message);
+    });
+  }
+
+  render() {
+    const AuthBar = withRouter(({ history }) =>
+      isAuthorized() ? (
+        <React.Fragment>
+          <Link to="/">
+            <Tooltip title="Home">
+              <IconButton aria-label="Home" style={{ color: 'white' }}>
+                <Home />
+              </IconButton>
+            </Tooltip>
+          </Link>
+          {/* <Link to="/profile"> */}
+          <Tooltip title="My Profile">
+            <IconButton aria-label="My Profile" style={{ color: 'white' }}>
+              <AccountCircle />
             </IconButton>
           </Tooltip>
-        </Link>
-        {/* <Link to="/profile"> */}
-        <Tooltip title="My Profile">
-          <IconButton aria-label="My Profile" style={{ color: 'white' }}>
-            <AccountCircle />
-          </IconButton>
-        </Tooltip>
-        {/* </Link> */}
-        {/* <Link to="/schedule"> */}
-        <Tooltip title="My Schedule">
-          <IconButton aria-label="My Schedule" style={{ color: 'white' }}>
-            <CalendarToday />
-          </IconButton>
-        </Tooltip>
-        {/* </Link> */}
-        {/* <Link to="/checkin"> */}
-        <Tooltip title="Check In">
-          <IconButton aria-label="Check In" style={{ color: 'white' }}>
-            <CheckCircle />
-          </IconButton>
-        </Tooltip>
-        {/* </Link> */}
-        <Link to="/faqs">
-          <Tooltip title="FAQs">
-            <IconButton aria-label="FAQs" style={{ color: 'white' }}>
-              <QuestionAnswer />
+          {/* </Link> */}
+          {/* <Link to="/schedule"> */}
+          <Tooltip title="My Schedule">
+            <IconButton aria-label="My Schedule" style={{ color: 'white' }}>
+              <CalendarToday />
             </IconButton>
           </Tooltip>
-        </Link>
-        <Button
-          onClick={() => { fakeAuth.signout(() => history.push("/")); }}
-          style={{ color: 'white' }}
-        >
-          Sign out
+          {/* </Link> */}
+          {/* <Link to="/checkin"> */}
+          <Tooltip title="Check In">
+            <IconButton aria-label="Check In" style={{ color: 'white' }}>
+              <CheckCircle />
+            </IconButton>
+          </Tooltip>
+          {/* </Link> */}
+          <Link to="/faqs">
+            <Tooltip title="FAQs">
+              <IconButton aria-label="FAQs" style={{ color: 'white' }}>
+                <QuestionAnswer />
+              </IconButton>
+            </Tooltip>
+          </Link>
+          <Button
+            onClick={() => { this.signout(() => { history.push("/login"); }); }}
+            style={{ color: 'white' }}
+          >
+            Sign out
         </Button>
-      </React.Fragment>
-    ) : <Button onClick={() => { history.push("/login"); }} style={{ color: 'white' }}>
-        Sign in
+        </React.Fragment>
+      ) : <Button onClick={() => { history.push("/login"); }} style={{ color: 'white' }}>
+          Sign in
     </Button>
-  );
+    );
 
-  return <div style={{ flexGrow: 1 }}>
-    <AppBar>
-      <Toolbar>
-        <Typography variant="title" style={{ color: 'white', flexGrow: 1 }}>
-          Intro to Programming Tutoring
+    return <div style={{ flexGrow: 1 }}>
+      <AppBar>
+        <Toolbar>
+          <Typography variant="title" style={{ color: 'white', flexGrow: 1 }}>
+            Intro to Programming Tutoring
         </Typography>
-        <AuthBar />
-      </Toolbar>
-    </AppBar>
-  </div>
+          <AuthBar />
+        </Toolbar>
+      </AppBar>
+    </div>
+  }
 }
 
 export default Navbar;

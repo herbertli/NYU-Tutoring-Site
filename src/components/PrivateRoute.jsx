@@ -3,13 +3,13 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { fakeAuth } from '../services/authentication';
+import { isAuthorized } from '../services/firebase';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      fakeAuth.isAuthenticated ? (
+      isAuthorized() ? (
         <Component {...props} />
       ) : (
         <Redirect

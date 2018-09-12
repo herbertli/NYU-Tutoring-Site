@@ -3,12 +3,12 @@ import Typography from '@material-ui/core/Typography';
 // import AttendanceTable from './AttendanceTable';
 // import SimpleCalendar from './SimpleCalendar';
 // import InfoTable from './InfoTable';
-import { fakeAuth } from './../services/authentication';
+import { getCurrentUser } from './../services/firebase';
 
 class Profile extends Component {
 
   render() {
-    const { user } = fakeAuth;
+    const user = getCurrentUser();
     return (
       <div>
         <Typography variant="display1" gutterBottom>
