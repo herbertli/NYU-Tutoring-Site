@@ -1,47 +1,36 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from "react-router-dom";
+import { Route } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
 import PrivateRoute from './components/PrivateRoute';
-import { AuthProvider } from './components/AuthContext';
-import Home from './components/HomePage';
-import Login from './components/LoginPage';
-import About from './components/AboutPage';
-import Profile from './components/ProfilePage';
-import Game from './components/GamePage';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Schedule from './components/Schedule';
+import Checkin from './components/Checkin';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import Questions from './components/Questions';
 
-const App = () => {
+const styles = theme => ({
+  appBarSpacer: theme.mixins.toolbar
+});
+
+const App = (props) => {
+
+  const { classes } = props;
+
   return (
-    <AuthProvider>
-      <CssBaseline />
-      <Router>
-        <div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/game">Let's Play</Link>
-            </li>
-          </ul>
-          <hr />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route path="/about" component={About} />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/game" component={Game} />
-        </div>
-      </Router>
-    </AuthProvider>)
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Navbar />
+      <div className={classes.appBarSpacer} />
+      <Route exact path="/login" component={Login} />
+      <PrivateRoute exact path="/" component={Home} />
+      <PrivateRoute exact path="/schedule" component={Schedule} />
+      <PrivateRoute exact path="/checkin" component={Checkin} />
+      <PrivateRoute exact path="/profile" component={Profile} />
+      <PrivateRoute exact path="/faqs" component={Questions} />
+
+    </div>
+  )
 }
 
-export default App;
+export default withStyles(styles)(App);

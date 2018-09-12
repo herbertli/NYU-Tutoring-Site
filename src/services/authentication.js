@@ -1,34 +1,18 @@
-import firebase from './../services/firebase';
-
-var provider = new firebase.auth.GoogleAuthProvider();
-
-const Auth = {
-  getUser() {
-    return firebase.auth().currentUser;
-  },
+export const fakeAuth = {
+  isAuthenticated: false,
   authenticate(cb) {
-    firebase.auth().signInWithPopup(provider)
-    .then((user) => {
-      console.log('Signed in user!');
-      cb(true, this.getUser());
-    }).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("Error signing in user:", errorCode, errorMessage);
-      cb(false, this.getUser());
-    });
+    this.isAuthenticated = true;
+    this.user = {
+      firstName: "Joe",
+      lastName: "Doe",
+      email: "example@example.com"
+    }
+    setTimeout(cb, 100); // fake async
   },
   signout(cb) {
-    firebase.auth().signOut().then(() => {
-      console.log('Signed out user!');
-      cb(true, this.getUser());
-    }, (error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("Error signing out user:", errorCode, errorMessage);
-      cb(false, this.getUser());
-    });
-  }
+    this.isAuthenticated = false;
+    this.user = null;
+    setTimeout(cb, 100);
+  },
+  user: null
 };
-
-export default Auth;

@@ -1,24 +1,26 @@
 import React from "react";
 import {
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
-import { AuthConsumer } from './AuthContext';
+import { fakeAuth } from '../services/authentication';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-  <AuthConsumer>
-    {({ isAuth }) => (
-      <Route
-        render={
-          props =>
-            isAuth 
-            ? <Component {...props} /> 
-            : <Redirect to="/login" />
-        }
-        {...rest}
-      />
-    )}
-  </AuthConsumer>
-)
+  <Route
+    {...rest}
+    render={props =>
+      fakeAuth.isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
 
 export default PrivateRoute;
