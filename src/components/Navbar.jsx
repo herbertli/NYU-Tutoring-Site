@@ -11,7 +11,7 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 import { fakeAuth } from '../services/authentication';
-
+import Tooltip from '@material-ui/core/Tooltip';
 
 const Navbar = () => {
 
@@ -19,31 +19,41 @@ const Navbar = () => {
     fakeAuth.isAuthenticated ? (
       <React.Fragment>
         <Link to="/">
-          <IconButton style={{color: 'white'}}>
-            <Home />
-          </IconButton>
+          <Tooltip title="Home">
+            <IconButton aria-label="Home" style={{ color: 'white' }}>
+              <Home />
+            </IconButton>
+          </Tooltip>
         </Link>
         {/* <Link to="/profile"> */}
-          <IconButton style={{color: 'white'}}>
+        <Tooltip title="My Profile">
+          <IconButton aria-label="My Profile" style={{ color: 'white' }}>
             <AccountCircle />
           </IconButton>
+        </Tooltip>
         {/* </Link> */}
         {/* <Link to="/schedule"> */}
-          <IconButton style={{color: 'white'}}>
+        <Tooltip title="My Schedule">
+          <IconButton aria-label="My Schedule" style={{ color: 'white' }}>
             <CalendarToday />
           </IconButton>
+        </Tooltip>
         {/* </Link> */}
         {/* <Link to="/checkin"> */}
-          <IconButton style={{color: 'white'}}>
+        <Tooltip title="Check In">
+          <IconButton aria-label="Check In" style={{ color: 'white' }}>
             <CheckCircle />
           </IconButton>
+        </Tooltip>
         {/* </Link> */}
         <Link to="/faqs">
-          <IconButton style={{color: 'white'}}>
-            <QuestionAnswer />
-          </IconButton>
+          <Tooltip title="FAQs">
+            <IconButton aria-label="FAQs" style={{ color: 'white' }}>
+              <QuestionAnswer />
+            </IconButton>
+          </Tooltip>
         </Link>
-        <Button 
+        <Button
           onClick={() => { fakeAuth.signout(() => history.push("/")); }}
           style={{ color: 'white' }}
         >
@@ -51,8 +61,8 @@ const Navbar = () => {
         </Button>
       </React.Fragment>
     ) : <Button onClick={() => { history.push("/login"); }} style={{ color: 'white' }}>
-      Sign in
-    </Button> 
+        Sign in
+    </Button>
   );
 
   return <div style={{ flexGrow: 1 }}>

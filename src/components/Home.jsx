@@ -90,7 +90,7 @@ const Home = (props) => {
                 FAQs
               </Typography>
               <Typography component="p">
-                Log interactions during drop-in sessions here
+                Frequently asked questions
                   </Typography>
             </CardContent>
           </Card>
