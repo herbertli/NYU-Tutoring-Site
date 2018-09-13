@@ -44,7 +44,7 @@ const Home = (props) => {
           <Card className={classes.card} elevation={3}>
             <CardContent>
               <Typography variant="headline" component="h2">
-                Common Course Syllabus
+                Common Syllabus
                   </Typography>
               <Typography component="p">
                 In-class assignments, drop-in calendar, syllabus, etc.
@@ -55,7 +55,6 @@ const Home = (props) => {
       </Grid>
       <Grid item>
         <ButtonBase focusRipple key={1} onClick={() => window.open(links.slackLink, "_blank")}>
-
           <Card className={classes.card} elevation={3}>
             <CardContent>
               <Typography variant="headline" component="h2">

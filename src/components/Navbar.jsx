@@ -10,16 +10,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import CheckCircle from '@material-ui/icons/CheckCircle';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
-import { isAuthorized } from '../services/firebase';
 import Tooltip from '@material-ui/core/Tooltip';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 class Navbar extends React.Component {
-
-  state = {
-    user: null
-  }
 
   signout(cb) {
     firebase.auth().signOut().then(function() {
@@ -34,7 +29,7 @@ class Navbar extends React.Component {
 
   render() {
     const AuthBar = withRouter(({ history }) =>
-      isAuthorized() ? (
+      this.props.authorized ? (
         <React.Fragment>
           <Link to="/">
             <Tooltip title="Home">

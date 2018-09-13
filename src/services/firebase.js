@@ -11,39 +11,7 @@ const settings = {
 };
 firestoreDB.settings(settings);
 
-export const getCurrentUser = () => {
-  return firebase.auth().currentUser;
-}
-
-export const isAuthorized = () => {
-  const user = getCurrentUser();
-  if (user !== null)
-    return getUser(user.uid) !== null;
-  return false;
-}
-
 export const usersCollection = firestoreDB.collection("users");
-
-export const listenToUsers = () => {
-  usersCollection.onSnapshot((snapshot) => {
-    var users = [];
-    snapshot.forEach((doc) => {
-      users.push(doc.data());
-    });
-    return users;
-  });
-}
-
-export const getUser = (uid) => {
-  usersCollection.doc(uid).get().then((doc) => {
-    if (doc.exists) {
-      return doc;
-    } else {
-      console.log("No such document!");
-      return null;
-    }
-  });
-}
 
 export const createUser = (firstName, lastName, email, uid, isAdmin = false) => {
   usersCollection.doc(uid).set({
@@ -70,9 +38,4 @@ export const updateUser = (uid, displayName, email) => {
     .catch(function (error) {
       console.error("Error updating user: ", error);
     });
-}
-
-export const isAdmin = (uid) => {
-  const user = getUser(uid);
-  return user.data().isAdmin;
 }
